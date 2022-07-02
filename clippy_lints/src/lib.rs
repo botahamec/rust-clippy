@@ -307,6 +307,7 @@ mod unnecessary_wraps;
 mod unnested_or_patterns;
 mod unsafe_removed_from_name;
 mod unused_async;
+mod unused_box;
 mod unused_io_amount;
 mod unused_peekable;
 mod unused_rounding;

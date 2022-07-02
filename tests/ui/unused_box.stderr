@@ -1,0 +1,10 @@
+error: function returns `Box<usize>` when `usize` implements `Sized`
+  --> $DIR/unused_box.rs:3:13
+   |
+LL | fn foo() -> Box<usize> {
+   |             ^^^^^^^^^^ help: change the return type to: `usize`
+   |
+   = note: `-D clippy::unused-box` implied by `-D warnings`
+
+error: aborting due to previous error
+

@@ -12,7 +12,7 @@
 // Shouldn't suggest rustc lint name(`dead_code`)
 #[warn(clippy::drop_copy)]
 // Shouldn't suggest removed/deprecated clippy lint name(`unused_collect`)
-#[warn(clippy::unused_self)]
+#[warn(clippy::unused_box)]
 // Shouldn't suggest renamed clippy lint name(`const_static_lifetime`)
 #[warn(clippy::redundant_static_lifetimes)]
 fn main() {}
