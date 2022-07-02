@@ -1,10 +1,16 @@
 error: function returns `Box<usize>` when `usize` implements `Sized`
-  --> $DIR/unused_box.rs:3:13
+  --> $DIR/unused_box.rs:6:21
    |
-LL | fn foo() -> Box<usize> {
-   |             ^^^^^^^^^^ help: change the return type to: `usize`
+LL | fn boxed_usize() -> Box<usize> {
+   |                     ^^^^^^^^^^ help: change the return type to: `usize`
    |
    = note: `-D clippy::unused-box` implied by `-D warnings`
 
-error: aborting due to previous error
+error: function returns `Box<Foo>` when `Foo` implements `Sized`
+  --> $DIR/unused_box.rs:11:22
+   |
+LL | fn boxed_string() -> Box<Foo> {
+   |                      ^^^^^^^^ help: change the return type to: `Foo`
+
+error: aborting due to 2 previous errors
 
