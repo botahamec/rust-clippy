@@ -40,7 +40,7 @@ error: unknown lint: `clippy::unused_colle`
   --> $DIR/unknown_clippy_lints.rs:15:8
    |
 LL | #[warn(clippy::unused_colle)]
-   |        ^^^^^^^^^^^^^^^^^^^^ help: did you mean: `clippy::unused_box`
+   |        ^^^^^^^^^^^^^^^^^^^^ help: did you mean: `clippy::unused_self`
 
 error: unknown lint: `clippy::const_static_lifetim`
   --> $DIR/unknown_clippy_lints.rs:17:8

@@ -30,13 +30,13 @@ declare_clippy_lint! {
     /// }
     /// ```
     #[clippy::version = "1.64.0"]
-    pub UNUSED_BOX,
+    pub UNNECESSARY_BOX_RETURNS,
     nursery,
     "Needlessly returning a Box"
 }
-declare_lint_pass!(UnusedBox => [UNUSED_BOX]);
+declare_lint_pass!(UnnecessaryBoxReturns => [UNNECESSARY_BOX_RETURNS]);
 
-impl LateLintPass<'_> for UnusedBox {
+impl LateLintPass<'_> for UnnecessaryBoxReturns {
     fn check_fn(
         &mut self,
         cx: &LateContext<'_>,
@@ -68,7 +68,7 @@ impl LateLintPass<'_> for UnusedBox {
         if implements_trait(cx, boxed_ty, sized_trait, &[]) {
             span_lint_and_sugg(
                 cx,
-                UNUSED_BOX,
+                UNNECESSARY_BOX_RETURNS,
                 return_ty_hir.span,
                 format!("function returns `Box<{0}>` when `{0}` implements `Sized`", boxed_ty).as_str(),
                 "change the return type to",

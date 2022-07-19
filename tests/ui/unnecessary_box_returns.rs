@@ -1,4 +1,4 @@
-#![warn(clippy::unused_box)]
+#![warn(clippy::unnecessary_box_returns)]
 
 struct Foo {}
 
@@ -8,7 +8,7 @@ fn boxed_usize() -> Box<usize> {
 }
 
 // lint
-fn boxed_string() -> Box<Foo> {
+fn boxed_foo() -> Box<Foo> {
     Box::new(Foo {})
 }
 
