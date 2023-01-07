@@ -70,7 +70,7 @@ impl LateLintPass<'_> for UnnecessaryBoxReturns {
                 cx,
                 UNNECESSARY_BOX_RETURNS,
                 return_ty_hir.span,
-                format!("function returns `Box<{0}>` when `{0}` implements `Sized`", boxed_ty).as_str(),
+                format!("function returns `Box<{boxed_ty}>` when `{boxed_ty}` implements `Sized`").as_str(),
                 "change the return type to",
                 boxed_ty.to_string(),
                 // the return value also needs to be changed, so this can't be MachineApplicable
