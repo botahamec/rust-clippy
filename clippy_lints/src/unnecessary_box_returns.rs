@@ -28,7 +28,7 @@ declare_clippy_lint! {
     ///     String::from("Hello, world!")
     /// }
     /// ```
-    #[clippy::version = "1.64.0"]
+    #[clippy::version = "1.70.0"]
     pub UNNECESSARY_BOX_RETURNS,
     pedantic,
     "Needlessly returning a Box"
