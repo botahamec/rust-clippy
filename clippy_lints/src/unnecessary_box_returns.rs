@@ -55,8 +55,8 @@ fn check_fn_decl(cx: &LateContext<'_>, decl: &FnDecl<'_>) {
             cx,
             UNNECESSARY_BOX_RETURNS,
             return_ty_hir.span,
-            format!("function returns `Box<{boxed_ty}>` when `{boxed_ty}` implements `Sized`").as_str(),
-            "change the return type to",
+            format!("boxed return of the sized type `{boxed_ty}`").as_str(),
+            "try",
             boxed_ty.to_string(),
             // the return value and function callers also needs to be changed, so this can't be MachineApplicable
             Applicability::Unspecified,
