@@ -1,22 +1,22 @@
-error: function returns `Box<usize>` when `usize` implements `Sized`
+error: boxed return of the sized type `usize`
   --> $DIR/unnecessary_box_returns.rs:5:22
    |
 LL |     fn baz(&self) -> Box<usize>;
-   |                      ^^^^^^^^^^ help: change the return type to: `usize`
+   |                      ^^^^^^^^^^ help: try: `usize`
    |
    = note: `-D clippy::unnecessary-box-returns` implied by `-D warnings`
 
-error: function returns `Box<usize>` when `usize` implements `Sized`
+error: boxed return of the sized type `usize`
   --> $DIR/unnecessary_box_returns.rs:18:21
    |
 LL | fn boxed_usize() -> Box<usize> {
-   |                     ^^^^^^^^^^ help: change the return type to: `usize`
+   |                     ^^^^^^^^^^ help: try: `usize`
 
-error: function returns `Box<Foo>` when `Foo` implements `Sized`
-  --> $DIR/unnecessary_box_returns.rs:23:19
+error: boxed return of the sized type `Foo`
+  --> $DIR/unnecessary_box_returns.rs:23:20
    |
-LL | fn boxed_foo() -> Box<Foo> {
-   |                   ^^^^^^^^ help: change the return type to: `Foo`
+LL | fn _boxed_foo() -> Box<Foo> {
+   |                    ^^^^^^^^ help: try: `Foo`
 
 error: aborting due to 3 previous errors
 
