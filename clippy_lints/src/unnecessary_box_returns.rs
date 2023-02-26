@@ -1,6 +1,6 @@
 use clippy_utils::{diagnostics::span_lint_and_sugg, ty::implements_trait};
 use rustc_errors::Applicability;
-use rustc_hir::{intravisit::FnKind, Body, FnDecl, FnRetTy, HirId};
+use rustc_hir::{def_id::LocalDefId, intravisit::FnKind, Body, FnDecl, FnRetTy};
 use rustc_hir_analysis::hir_ty_to_ty;
 use rustc_lint::{LateContext, LateLintPass};
 use rustc_session::{declare_lint_pass, declare_tool_lint};
@@ -44,7 +44,7 @@ impl LateLintPass<'_> for UnnecessaryBoxReturns {
         decl: &FnDecl<'_>,
         _: &Body<'_>,
         _: Span,
-        _: HirId,
+        _: LocalDefId,
     ) {
         // it's unclear what part of a closure you would span, so for now it's ignored
         // if this is changed, please also make sure not to call `hir_ty_to_ty` below
@@ -70,8 +70,8 @@ impl LateLintPass<'_> for UnnecessaryBoxReturns {
                 cx,
                 UNNECESSARY_BOX_RETURNS,
                 return_ty_hir.span,
-                format!("function returns `Box<{boxed_ty}>` when `{boxed_ty}` implements `Sized`").as_str(),
-                "change the return type to",
+                format!("boxed return of the sized type `{boxed_ty}`").as_str(),
+                "try",
                 boxed_ty.to_string(),
                 // the return value and function callers also needs to be changed, so this can't be MachineApplicable
                 Applicability::Unspecified,
