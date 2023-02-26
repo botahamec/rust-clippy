@@ -19,10 +19,10 @@ LL | fn boxed_usize() -> Box<usize> {
    |                     ^^^^^^^^^^ help: try: `usize`
 
 error: boxed return of the sized type `Foo`
-  --> $DIR/unnecessary_box_returns.rs:29:19
+  --> $DIR/unnecessary_box_returns.rs:29:20
    |
-LL | fn boxed_foo() -> Box<Foo> {
-   |                   ^^^^^^^^ help: try: `Foo`
+LL | fn _boxed_foo() -> Box<Foo> {
+   |                    ^^^^^^^^ help: try: `Foo`
 
 error: aborting due to 4 previous errors
 
