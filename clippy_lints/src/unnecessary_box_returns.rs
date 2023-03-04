@@ -1,4 +1,4 @@
-use clippy_utils::{diagnostics::span_lint_and_sugg, ty::implements_trait};
+use clippy_utils::diagnostics::span_lint_and_then;
 use rustc_errors::Applicability;
 use rustc_hir::{def_id::LocalDefId, FnDecl, FnRetTy, ImplItemKind, Item, ItemKind, Node, TraitItem, TraitItemKind};
 use rustc_hir_analysis::hir_ty_to_ty;
@@ -66,16 +66,23 @@ impl UnnecessaryBoxReturns {
         let Some(sized_trait) = cx.tcx.lang_items().sized_trait() else { return };
 
         // it's sometimes useful to return Box<T> if T is unsized, so don't lint those
-        if implements_trait(cx, boxed_ty, sized_trait, &[]) {
-            span_lint_and_sugg(
+        if boxed_ty.is_sized(cx.tcx, cx.param_env) {
+            span_lint_and_then(
                 cx,
                 UNNECESSARY_BOX_RETURNS,
                 return_ty_hir.span,
                 format!("boxed return of the sized type `{boxed_ty}`").as_str(),
-                "try",
-                boxed_ty.to_string(),
-                // the return value and function callers also needs to be changed, so this can't be MachineApplicable
-                Applicability::Unspecified,
+                |diagnostic| {
+                    diagnostic.span_suggestion(
+                        return_ty_hir.span,
+                        "try",
+                        boxed_ty.to_string(),
+                        // the return value and function callers also needs to
+                        // be changed, so this can't be MachineApplicable
+                        Applicability::Unspecified,
+                    );
+                    diagnostic.help("changing this also requires a change to the return expressions in this function");
+                },
             );
         }
     }
