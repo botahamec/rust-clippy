@@ -30,7 +30,7 @@ declare_clippy_lint! {
     /// ```
     #[clippy::version = "1.64.0"]
     pub UNNECESSARY_BOX_RETURNS,
-    nursery,
+    pedantic,
     "Needlessly returning a Box"
 }
 
