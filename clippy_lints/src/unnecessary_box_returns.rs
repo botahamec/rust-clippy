@@ -1,7 +1,6 @@
 use clippy_utils::diagnostics::span_lint_and_then;
 use rustc_errors::Applicability;
 use rustc_hir::{def_id::LocalDefId, FnDecl, FnRetTy, ImplItemKind, Item, ItemKind, Node, TraitItem, TraitItemKind};
-use rustc_hir_analysis::hir_ty_to_ty;
 use rustc_lint::{LateContext, LateLintPass};
 use rustc_session::{declare_tool_lint, impl_lint_pass};
 
@@ -55,15 +54,16 @@ impl UnnecessaryBoxReturns {
 
         let FnRetTy::Return(return_ty_hir) = &decl.output else { return };
 
-        // this is safe, since we're not in a body
-        let return_ty = hir_ty_to_ty(cx.tcx, return_ty_hir);
+        let return_ty = cx
+            .tcx
+            .erase_late_bound_regions(cx.tcx.fn_sig(def_id).skip_binder())
+            .output();
 
         if !return_ty.is_box() {
             return;
         }
 
         let boxed_ty = return_ty.boxed_ty();
-        let Some(sized_trait) = cx.tcx.lang_items().sized_trait() else { return };
 
         // it's sometimes useful to return Box<T> if T is unsized, so don't lint those
         if boxed_ty.is_sized(cx.tcx, cx.param_env) {
