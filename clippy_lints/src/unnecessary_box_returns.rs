@@ -81,7 +81,7 @@ impl UnnecessaryBoxReturns {
                         // be changed, so this can't be MachineApplicable
                         Applicability::Unspecified,
                     );
-                    diagnostic.help("Changing this also requires a change to the return expressions in this function");
+                    diagnostic.help("changing this also requires a change to the return expressions in this function");
                 },
             );
         }
