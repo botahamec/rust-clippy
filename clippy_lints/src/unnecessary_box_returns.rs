@@ -1,6 +1,6 @@
 use clippy_utils::{diagnostics::span_lint_and_sugg, ty::implements_trait};
 use rustc_errors::Applicability;
-use rustc_hir::{def_id::LocalDefId, FnDecl, FnRetTy, Item, ItemKind, TraitItem, TraitItemKind};
+use rustc_hir::{def_id::LocalDefId, FnDecl, FnRetTy, ImplItemKind, Item, ItemKind, Node, TraitItem, TraitItemKind};
 use rustc_hir_analysis::hir_ty_to_ty;
 use rustc_lint::{LateContext, LateLintPass};
 use rustc_session::{declare_tool_lint, impl_lint_pass};
@@ -84,6 +84,19 @@ impl UnnecessaryBoxReturns {
 impl LateLintPass<'_> for UnnecessaryBoxReturns {
     fn check_trait_item(&mut self, cx: &LateContext<'_>, item: &TraitItem<'_>) {
         let TraitItemKind::Fn(signature, _) = &item.kind else { return };
+        self.check_fn_decl(cx, signature.decl, item.owner_id.def_id);
+    }
+
+    fn check_impl_item(&mut self, cx: &LateContext<'_>, item: &rustc_hir::ImplItem<'_>) {
+        // Ignore implementations of traits, because the lint should be on the
+        // trait, not on the implmentation of it.
+        let Node::Item(parent) = cx.tcx.hir().get_parent(item.hir_id()) else { return };
+        let ItemKind::Impl(parent) = parent.kind else { return };
+        if parent.of_trait.is_some() {
+            return;
+        }
+
+        let ImplItemKind::Fn(signature, ..) = &item.kind else { return };
         self.check_fn_decl(cx, signature.decl, item.owner_id.def_id);
     }
 

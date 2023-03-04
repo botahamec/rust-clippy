@@ -14,6 +14,12 @@ impl Bar for Foo {
     }
 }
 
+impl Foo {
+    fn baz(&self) -> Box<usize> {
+        Box::new(13)
+    }
+}
+
 // lint
 fn boxed_usize() -> Box<usize> {
     Box::new(5)

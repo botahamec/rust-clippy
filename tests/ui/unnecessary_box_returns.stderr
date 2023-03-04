@@ -7,16 +7,22 @@ LL |     fn baz(&self) -> Box<usize>;
    = note: `-D clippy::unnecessary-box-returns` implied by `-D warnings`
 
 error: boxed return of the sized type `usize`
-  --> $DIR/unnecessary_box_returns.rs:18:21
+  --> $DIR/unnecessary_box_returns.rs:18:22
+   |
+LL |     fn baz(&self) -> Box<usize> {
+   |                      ^^^^^^^^^^ help: try: `usize`
+
+error: boxed return of the sized type `usize`
+  --> $DIR/unnecessary_box_returns.rs:24:21
    |
 LL | fn boxed_usize() -> Box<usize> {
    |                     ^^^^^^^^^^ help: try: `usize`
 
 error: boxed return of the sized type `Foo`
-  --> $DIR/unnecessary_box_returns.rs:23:20
+  --> $DIR/unnecessary_box_returns.rs:29:20
    |
 LL | fn _boxed_foo() -> Box<Foo> {
    |                    ^^^^^^^^ help: try: `Foo`
 
-error: aborting due to 3 previous errors
+error: aborting due to 4 previous errors
 
